@@ -35,10 +35,10 @@
         <div class="grid grid-cols-12 gap-6">
 
             <!-- Line chart (Acme Plus) -->
-            <x-dashboard.dashboard-card-01 :dataFeed="$dataFeed" :productCounts="$productCounts" />
+            <x-dashboard.dashboard-card-01 :productCounts="$productCounts" />
 
             <!-- Line chart (Acme Advanced) -->
-            <x-dashboard.dashboard-card-02 :dataFeed="$dataFeed" />
+            <x-dashboard.dashboard-card-02 :userCount="$userCounts" />
 
             <!-- Line chart (Acme Professional) -->
             <x-dashboard.dashboard-card-03 :dataFeed="$dataFeed" />
@@ -52,10 +52,9 @@
             <!-- Doughnut chart (Top Countries) -->
             <!-- <x-dashboard.dashboard-card-06 /> -->
 
-            <x-dashboard.dashboard-card-03 :dataFeed="$dataFeed" />
 
             <!-- Table (Top Channels) -->
-            <x-dashboard.dashboard-card-07 />
+            <x-dashboard.dashboard-card-07 :products="$products" />
 
         </div>
 

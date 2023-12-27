@@ -4,6 +4,10 @@
         <!-- Welcome banner -->
         <x-dashboard.welcome-banner />
 
+        <div class="grid grid-cols-12 gap-6">
 
+            <x-.products.table :products="$products" />
+
+        </div>
     </div>
 </x-app-layout>

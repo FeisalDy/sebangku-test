@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Http;
 use App\Models\DataFeed;
 use Carbon\Carbon;
 use App\Models\Product;
+use App\Models\User;
 
 class DashboardController extends Controller
 {
@@ -19,7 +20,7 @@ class DashboardController extends Controller
     public function index()
     {
         $dataFeed = new DataFeed();
-        $products = Product::all();
+        $products = Product::latest()->paginate(10);
         $activeProductsCount = Product::where('status', 'available')->count();
         $inactiveProductsCount = Product::where('status', 'unavailable')->count();
 
@@ -28,9 +29,17 @@ class DashboardController extends Controller
             'inactive' => $inactiveProductsCount,
         ];
 
+        $users = User::all();
+        $activeUsersCount = User::where('active', true)->count();
+        $inactiveUsersCount = User::where('active', false)->count();
+
+        $userCounts = (object) [
+            'active' => $activeUsersCount,
+            'inactive' => $inactiveUsersCount,
+        ];
 
 
-        return view('pages/dashboard/dashboard', compact('dataFeed', 'products', 'productCounts'));
+        return view('pages/dashboard/dashboard', compact('dataFeed', 'products', 'productCounts', 'userCounts'));
         // return $productCounts;
     }
 }
