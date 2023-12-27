@@ -3,6 +3,8 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DataFeedController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\ProductController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -23,7 +25,10 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::get('/json-data-feed', [DataFeedController::class, 'getDataFeed'])->name('json_data_feed');
 
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
-    Route::fallback(function() {
+
+    Route::resource('products', ProductController::class);
+
+    Route::fallback(function () {
         return view('pages/utility/404');
-    });    
+    });
 });
