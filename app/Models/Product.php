@@ -15,4 +15,5 @@ class Product extends Model
      * @var string
      */
     protected $table = 'products'; // Specify the actual table name if different
+    protected $fillable = ['name', 'price', 'status', 'image'];
 }

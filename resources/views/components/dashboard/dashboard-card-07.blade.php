@@ -37,10 +37,10 @@
                     <tr>
                         <td class="p-2">
                             <div class="text-left">
-                                @if($product->image && file_exists(public_path($product->image)))
-                                <img src="{{ asset($product->image) }}" alt="Product Image" style="max-width: 100px; max-height: 100px;">
+                                @if($product->image && file_exists(public_path('storage/' . $product->image)))
+                                <img src="{{ asset('storage/' . $product->image) }}" alt="Product Image" class="object-cover h-[100px]">
                                 @else
-                                <img src="https://via.placeholder.com/100x100" alt="Default Image" style="max-width: 100px; max-height: 100px;">
+                                <img src="https://via.placeholder.com/500x500" alt="Default Image" class="object-cover" style="max-width: 100px; max-height: 100px;">
                                 @endif
                             </div>
                         </td>

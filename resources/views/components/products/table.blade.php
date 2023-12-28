@@ -1,8 +1,20 @@
 <div class="bg-white border rounded-sm shadow-lg col-span-full dark:bg-slate-800 border-slate-200 dark:border-slate-700">
-    <header class="px-5 py-4 border-b border-slate-100 dark:border-slate-700">
+    <header class="flex items-center justify-between px-5 py-4 border-b border-slate-100 dark:border-slate-700">
         <h2 class="font-semibold text-slate-800 dark:text-slate-100">Latest Products</h2>
+        <a class="text-white bg-indigo-500 btn hover:bg-indigo-600" href="{{ route('products.create')}}">
+            <svg class="w-4 h-4 opacity-50 fill-current shrink-0" viewBox="0 0 16 16">
+                <path d="M15 7H9V1c0-.6-.4-1-1-1S7 .4 7 1v6H1c-.6 0-1 .4-1 1s.4 1 1 1h6v6c0 .6.4 1 1 1s1-.4 1-1V9h6c.6 0 1-.4 1-1s-.4-1-1-1z" />
+            </svg>
+            <span class="hidden ml-2 xs:block">Add Product</span>
+        </a>
+
     </header>
-    <div class="p-3">
+    @if (session('success'))
+    <div class="p-4 mt-4 text-green-800 bg-green-200 border-l-4 border-green-600" role="alert">
+        <p>{{ session('success') }}</p>
+    </div>
+    @endif
+    <div class="p-3 ">
 
         <!-- Table -->
         <div class="overflow-x-auto ">
@@ -40,26 +52,34 @@
                     <tr>
                         <td class="p-2">
                             <div class="text-left">
-                                @if($product->image && file_exists(public_path($product->image)))
-                                <img src="{{ asset($product->image) }}" alt="Product Image" style="max-width: 100px; max-height: 100px;">
+                                @if($product->image && file_exists(public_path('storage/' . $product->image)))
+                                <img src="{{ asset('storage/' . $product->image) }}" alt="Product Image" style="max-width: 100px; max-height: 100px;">
                                 @else
                                 <img src="https://via.placeholder.com/100x100" alt="Default Image" style="max-width: 100px; max-height: 100px;">
                                 @endif
+
                             </div>
                         </td>
                         <td class="p-2">
                             <div class="text-center">{{$product->name}}</div>
                         </td>
                         <td class="p-2">
-                            <div class="text-center text-emerald-500">Rp. {{$product->price}}</div>
+                            <div class="text-center">Rp. {{$product->price}}</div>
                         </td>
                         <td class="p-2">
-                            <div class="text-center">{{$product->status}}</div>
+                            <div class="text-center 
+                            @if($product->status === 'available')
+                                text-emerald-500
+                            @else
+                                text-red-500
+                            @endif">
+                                {{ ucfirst($product->status) }}
+                            </div>
                         </td>
                         <td class="p-2">
                             <div class="flex justify-center gap-2">
                                 <!-- Detail SVG Icon -->
-                                <a href="#">
+                                <a href="{{ route('products.show', ['product' => $product->id]) }}">
                                     <svg width="30px" height="30px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                         <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
                                         <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
@@ -72,8 +92,7 @@
                                 </a>
 
                                 <!-- Edit SVG Icon -->
-                                <a href="#">
-
+                                <a href="{{ route('products.edit', ['product' => $product->id]) }}">
                                     <svg width="30px" height="30px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                         <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
                                         <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
@@ -86,24 +105,28 @@
                                 </a>
 
                                 <!-- Delete SVG Icon -->
-                                <a href="#">
+                                <!-- <button wire:click.prevent="deleteProduct({{ $product->id }})" onclick="return confirm('Are you sure you want to delete this product?')"> -->
+                                <form method="POST" action="{{ route('products.destroy', ['product' => $product->id]) }}">
+                                    @csrf
+                                    @method('DELETE')
 
-                                    <svg width="30px" height="30px" viewBox="-2.1 -2.1 25.20 25.20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="#000000" transform="matrix(1, 0, 0, 1, 0, 0)">
-                                        <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                                        <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round" stroke="#CCCCCC" stroke-width="0.33599999999999997"></g>
-                                        <g id="SVGRepo_iconCarrier">
-                                            <title>Delete</title>
-                                            <g id="Page-1" stroke-width="0.00021000000000000004" fill="none" fill-rule="evenodd">
-                                                <g id="Dribbble-Light-Preview" transform="translate(-179.000000, -360.000000)" fill="#cc0000">
-                                                    <g id="icons" transform="translate(56.000000, 160.000000)">
-                                                        <path d="M130.35,216 L132.45,216 L132.45,208 L130.35,208 L130.35,216 Z M134.55,216 L136.65,216 L136.65,208 L134.55,208 L134.55,216 Z M128.25,218 L138.75,218 L138.75,206 L128.25,206 L128.25,218 Z M130.35,204 L136.65,204 L136.65,202 L130.35,202 L130.35,204 Z M138.75,204 L138.75,200 L128.25,200 L128.25,204 L123,204 L123,206 L126.15,206 L126.15,220 L140.85,220 L140.85,206 L144,206 L144,204 L138.75,204 Z" id="delete-[#000000]"> </path>
+                                    <button type="submit" onclick="return confirm('Are you sure you want to delete this product?')">
+
+                                        <svg width="30px" height="30px" viewBox="-2.1 -2.1 25.20 25.20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="#000000" transform="matrix(1, 0, 0, 1, 0, 0)">
+                                            <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                                            <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round" stroke="#CCCCCC" stroke-width="0.33599999999999997"></g>
+                                            <g id="SVGRepo_iconCarrier">
+                                                <title>Delete</title>
+                                                <g id="Page-1" stroke-width="0.00021000000000000004" fill="none" fill-rule="evenodd">
+                                                    <g id="Dribbble-Light-Preview" transform="translate(-179.000000, -360.000000)" fill="#cc0000">
+                                                        <g id="icons" transform="translate(56.000000, 160.000000)">
+                                                            <path d="M130.35,216 L132.45,216 L132.45,208 L130.35,208 L130.35,216 Z M134.55,216 L136.65,216 L136.65,208 L134.55,208 L134.55,216 Z M128.25,218 L138.75,218 L138.75,206 L128.25,206 L128.25,218 Z M130.35,204 L136.65,204 L136.65,202 L130.35,202 L130.35,204 Z M138.75,204 L138.75,200 L128.25,200 L128.25,204 L123,204 L123,206 L126.15,206 L126.15,220 L140.85,220 L140.85,206 L144,206 L144,204 L138.75,204 Z" id="delete-[#000000]"> </path>
+                                                        </g>
                                                     </g>
                                                 </g>
                                             </g>
-                                        </g>
-                                    </svg>
-                                </a>
-                                <!-- Text for context (e.g., Details, Edit, Delete) -->
+                                        </svg>
+                                    </button>
                             </div>
                         </td>
                     </tr>

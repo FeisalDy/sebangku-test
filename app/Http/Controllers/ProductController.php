@@ -15,7 +15,7 @@ class ProductController extends Controller
 
     public function create()
     {
-        return view('products.create');
+        return view('pages/products/create');
     }
 
     public function store(Request $request)
@@ -35,27 +35,13 @@ class ProductController extends Controller
     public function show($id)
     {
         $product = Product::findOrFail($id);
-        return view('products.show', ['product' => $product]);
+        return view('pages/products/detail', ['product' => $product]);
     }
 
     public function edit($id)
     {
         $product = Product::findOrFail($id);
-        return view('products.edit', ['product' => $product]);
-    }
-
-    public function update(Request $request, $id)
-    {
-        $validatedData = $request->validate([
-            'name' => 'required',
-            'price' => 'required|numeric',
-            'image' => 'required',
-            'status' => 'required',
-        ]);
-
-        Product::whereId($id)->update($validatedData);
-
-        return redirect()->route('products.index')->with('success', 'Product updated successfully.');
+        return view('pages/products/edit', ['product' => $product]);
     }
 
     public function destroy($id)
@@ -63,6 +49,7 @@ class ProductController extends Controller
         $product = Product::findOrFail($id);
         $product->delete();
 
+        // return redirect()->route('pages/products/products')->with('success', 'Product deleted successfully.');
         return redirect()->route('products.index')->with('success', 'Product deleted successfully.');
     }
 }

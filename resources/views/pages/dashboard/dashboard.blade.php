@@ -41,7 +41,6 @@
             <x-dashboard.dashboard-card-02 :userCount="$userCounts" />
 
             <!-- Line chart (Acme Professional) -->
-            <x-dashboard.dashboard-card-03 :dataFeed="$dataFeed" />
 
             <!-- Bar chart (Direct vs Indirect) -->
             <!-- <x-dashboard.dashboard-card-04 /> -->
