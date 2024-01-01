@@ -1,37 +1,37 @@
 <x-authentication-layout>
-    <h1 class="mb-6 text-3xl font-bold text-slate-800 dark:text-slate-100">{{ __('Create your Account') }} ✨</h1>
+    <h1 class="mb-6 text-3xl font-bold text-slate-800 dark:text-slate-950">{{ __('Create your Account') }} ✨</h1>
     <!-- Form -->
     <form method="POST" action="{{ route('register') }}">
         @csrf
         <div class="space-y-4">
             <div>
                 <x-jet-label for="name">{{ __('Full Name') }} <span class="text-rose-500">*</span></x-jet-label>
-                <x-jet-input id="name" type="text" name="name" :value="old('name')" required autofocus autocomplete="name" />
+                <x-jet-input id="name" type="text" name="name" :value="old('name')" required autofocus autocomplete="name" class="dark:text-black dark:bg-white" />
             </div>
 
             <div>
                 <x-jet-label for="email">{{ __('Email Address') }} <span class="text-rose-500">*</span></x-jet-label>
-                <x-jet-input id="email" type="email" name="email" :value="old('email')" required />
+                <x-jet-input id="email" type="email" name="email" :value="old('email')" required class="dark:text-black dark:bg-white" />
             </div>
 
             <div>
                 <x-jet-label for="phone">{{ __('Phone Number') }} <span class="text-rose-500">*</span></x-jet-label>
-                <x-jet-input id="phone" type="text" name="phone" :value="old('phone')" required />
+                <x-jet-input id="phone" type="text" name="phone" :value="old('phone')" required class="dark:text-black dark:bg-white" />
             </div>
 
             <div>
                 <x-jet-label for="password" value="{{ __('Password') }}" />
-                <x-jet-input id="password" type="password" name="password" required autocomplete="new-password" />
+                <x-jet-input id="password" type="password" name="password" required autocomplete="new-password" class="dark:text-black dark:bg-white" />
             </div>
 
             <div>
                 <x-jet-label for="password_confirmation" value="{{ __('Confirm Password') }}" />
-                <x-jet-input id="password_confirmation" type="password" name="password_confirmation" required autocomplete="new-password" />
+                <x-jet-input id="password_confirmation" type="password" name="password_confirmation" required autocomplete="new-password" class="dark:text-black dark:bg-white" />
             </div>
         </div>
         <div class="flex items-center justify-between mt-6">
             <div class="mr-1">
-                <label class="flex items-center" name="newsletter" id="newsletter">
+                <label class="flex items-center" name="newsletter" id="newsletter" class="">
                     <input type="checkbox" class="form-checkbox" />
                     <span class="ml-2 text-sm">Email me about product news.</span>
                 </label>

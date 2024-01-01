@@ -5,6 +5,7 @@ use App\Http\Controllers\DataFeedController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\HomeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,11 +25,14 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     // Route for the getting the data feed
     Route::get('/json-data-feed', [DataFeedController::class, 'getDataFeed'])->name('json_data_feed');
 
-    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    Route::get('/home', [HomeController::class, 'index'])->name('home');
 
-    Route::resource('products', ProductController::class);
-    Route::resource('users', UserController::class);
 
+    Route::middleware('admin')->group(function () {
+        Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+        Route::resource('products', ProductController::class);
+        Route::resource('users', UserController::class);
+    });
 
     Route::fallback(function () {
         return view('pages/utility/404');

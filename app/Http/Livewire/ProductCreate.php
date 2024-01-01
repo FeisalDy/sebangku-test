@@ -23,7 +23,7 @@ class ProductCreate extends Component
         'state.name' => 'required',
         'state.price' => 'required|numeric',
         'state.status' => 'required',
-        'state.image' => 'nullable|image|max:10240',
+        'state.image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:10240'
     ];
 
     public function render()
